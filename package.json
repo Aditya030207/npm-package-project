@@ -1,0 +1,45 @@
+{
+  "name": "permission-gap-detector",
+  "version": "1.0.0",
+  "description": "Check declared API route permissions for missing policies, duplicates, and conflicts.",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "bin": {
+    "permission-gap": "bin/cli.js",
+    "permission-gap-detector": "bin/cli.js"
+  },
+  "files": [
+    "src/",
+    "bin/",
+    "examples/",
+    "CHANGELOG.md"
+  ],
+  "scripts": {
+    "test": "node --test",
+    "prepublishOnly": "npm test"
+  },
+  "keywords": [
+    "permissions",
+    "routes",
+    "express",
+    "audit",
+    "cli"
+  ],
+  "author": "Aditya030207",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Aditya030207/npm-package-project.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Aditya030207/npm-package-project/issues"
+  },
+  "homepage": "https://github.com/Aditya030207/npm-package-project#readme",
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  }
+}
