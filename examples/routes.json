@@ -1,0 +1,31 @@
+[
+  {
+    "method": "GET",
+    "path": "/products",
+    "access": "public"
+  },
+  {
+    "method": "POST",
+    "path": "/products",
+    "access": "authenticated"
+  },
+  {
+    "method": "DELETE",
+    "path": "/products/:id"
+  },
+  {
+    "method": "GET",
+    "path": "/products",
+    "access": "public"
+  },
+  {
+    "method": "GET",
+    "path": "/admin",
+    "access": "admin"
+  },
+  {
+    "method": "GET",
+    "path": "/admin",
+    "access": "public"
+  }
+]
