@@ -133,3 +133,12 @@ test('rejects control characters before including paths in a terminal report', (
     assert.ok(!generateReport(result).includes(character));
   }
 });
+
+test('CLI accepts a UTF-8 BOM but still rejects malformed JSON after it', t => {
+  const good = run('check', fixture(t, '\uFEFF' + JSON.stringify([route('public')])), '--json');
+  assert.equal(good.status, 0);
+  assert.equal(JSON.parse(good.stdout).summary.validPermissions, 1);
+  const bad = run('check', fixture(t, '\uFEFF{'), '--json');
+  assert.equal(bad.status, 2);
+  assert.match(JSON.parse(bad.stdout).error, /Invalid JSON/);
+});

@@ -143,7 +143,7 @@ node bin/cli.js --help
 node bin/cli.js --version
 ```
 
-Files must contain a JSON array, not an object wrapping the array. Paths are relative to the current working directory; quote paths containing spaces. Exit codes: **0** = no findings, **1** = audit findings, **2** = invalid command, unreadable file, malformed JSON, or non-array input. Human-readable failures go to stderr. With `--json`, failures are `{ "error": "message" }` on stdout.
+UTF-8 files may begin with a byte order mark (BOM). Files must contain a JSON array, not an object wrapping the array. Paths are relative to the current working directory; quote paths containing spaces. Exit codes: **0** = no findings, **1** = audit findings, **2** = invalid command, unreadable file, malformed JSON, or non-array input. Human-readable failures go to stderr. With `--json`, failures are `{ "error": "message" }` on stdout.
 
 ## Example output
 

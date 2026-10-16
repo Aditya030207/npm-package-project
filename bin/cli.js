@@ -21,7 +21,7 @@ try {
     try { content = fs.readFileSync(positional[1], 'utf8'); }
     catch { throw new Error(`Cannot read file: ${positional[1]}`); }
     let routes;
-    try { routes = JSON.parse(content); }
+    try { routes = JSON.parse(content.replace(/^\uFEFF/, '')); }
     catch { throw new Error(`Invalid JSON in file: ${positional[1]}`); }
     const result = auditRoutes(routes);
     console.log(json ? JSON.stringify(result, null, 2) : generateReport(result));
