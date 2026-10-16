@@ -63,7 +63,7 @@ Input is an array of ordinary route objects. Each object needs:
 | Field | Accepted values |
 | --- | --- |
 | `method` | GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS, CONNECT, TRACE; case-insensitive |
-| `path` | A string starting with `/`, without whitespace |
+| `path` | A string starting with `/`, without whitespace or control characters |
 | `access` | Exactly `public`, `authenticated`, or `admin` |
 
 `public` allows anyone; `authenticated` requires a logged-in user; `admin` requires administrator access. These are declarations, not enforcement.

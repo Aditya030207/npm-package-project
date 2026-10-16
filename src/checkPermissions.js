@@ -9,8 +9,8 @@ function validateRoutes(routes) {
     const route = routes[index];
     if (!route || typeof route !== 'object' || Array.isArray(route) ||
         typeof route.method !== 'string' || !METHODS.includes(route.method.toUpperCase()) ||
-        typeof route.path !== 'string' || !route.path.startsWith('/') || /\s/.test(route.path)) {
-      invalidRoutes.push({ index, message: 'Expected an object with a supported HTTP method and a path starting with / without whitespace.' });
+        typeof route.path !== 'string' || !route.path.startsWith('/') || /[\s\x00-\x1f\x7f-\x9f]/.test(route.path)) {
+      invalidRoutes.push({ index, message: 'Expected an object with a supported HTTP method and a path starting with / without whitespace or control characters.' });
       continue;
     }
     validRoutes.push({ index, method: route.method.toUpperCase(), path: route.path, access: route.access });

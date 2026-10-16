@@ -124,3 +124,12 @@ test('CLI rejects missing or unsupported arguments', () => {
     assert.equal(run(...args).status, 2);
   }
 });
+
+test('rejects control characters before including paths in a terminal report', () => {
+  for (const character of ['\x00', '\x1b', '\x7f', '\x85', '\x9b']) {
+    const result = auditRoutes([{ method: 'GET', path: `/users${character}[2J`, access: 'public' }]);
+    assert.equal(result.summary.invalidRoutes, 1);
+    assert.equal(result.summary.validPermissions, 0);
+    assert.ok(!generateReport(result).includes(character));
+  }
+});
