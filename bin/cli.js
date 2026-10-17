@@ -9,10 +9,11 @@ const separator = args.indexOf('--');
 const options = separator === -1 ? args : args.slice(0, separator);
 const filenames = separator === -1 ? [] : args.slice(separator + 1);
 const json = options.includes('--json');
-const usage = 'Usage: permission-gap check <routes.json> [--json]\nOptions: --help, --version, --json';
+const usage = 'Usage: permission-gap check <routes.json> [--json]\n       permission-gap check [--json] -- <filename>\nOptions: --help, --version, --json\nExit codes: 0 = no findings, 1 = audit findings, 2 = input error';
 
 try {
-  if (args.length === 1 && args[0] === '--help') {
+  if ((args.length === 1 && args[0] === '--help') ||
+      (args.length === 2 && args[0] === 'check' && args[1] === '--help')) {
     console.log(usage);
   } else if (args.length === 1 && args[0] === '--version') {
     console.log(version);

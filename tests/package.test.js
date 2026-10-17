@@ -155,3 +155,11 @@ test('CLI treats dash-prefixed filenames literally after --', t => {
   assert.equal(run('check', '-unknown').status, 2);
   assert.equal(run('check', '--').status, 2);
 });
+
+test('check --help explains exit codes without reading a file', () => {
+  const result = run('check', '--help');
+  assert.equal(result.status, 0);
+  assert.equal(result.stderr, '');
+  assert.match(result.stdout, /Exit codes: 0 = no findings, 1 = audit findings, 2 = input error/);
+  assert.equal(run('check', '--help', 'extra.json').status, 2);
+});

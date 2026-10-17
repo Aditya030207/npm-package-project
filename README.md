@@ -140,6 +140,7 @@ From this repository:
 node bin/cli.js check examples/routes.json
 node bin/cli.js check examples/routes.json --json
 node bin/cli.js --help
+node bin/cli.js check --help
 node bin/cli.js --version
 ```
 
