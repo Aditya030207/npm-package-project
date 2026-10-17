@@ -142,3 +142,16 @@ test('CLI accepts a UTF-8 BOM but still rejects malformed JSON after it', t => {
   assert.equal(bad.status, 2);
   assert.match(JSON.parse(bad.stdout).error, /Invalid JSON/);
 });
+
+test('CLI treats dash-prefixed filenames literally after --', t => {
+  const file = fixture(t, JSON.stringify([route('public')]));
+  const dir = path.dirname(file);
+  for (const name of ['-routes.json', '--json']) {
+    fs.copyFileSync(file, path.join(dir, name));
+    const result = spawnSync(process.execPath, [cli, 'check', '--json', '--', name], { cwd: dir, encoding: 'utf8' });
+    assert.equal(result.status, 0);
+    assert.equal(JSON.parse(result.stdout).summary.validPermissions, 1);
+  }
+  assert.equal(run('check', '-unknown').status, 2);
+  assert.equal(run('check', '--').status, 2);
+});

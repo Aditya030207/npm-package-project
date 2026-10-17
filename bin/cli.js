@@ -4,7 +4,11 @@ const { auditRoutes } = require('../src');
 const generateReport = require('../src/generateReport');
 const { version } = require('../package.json');
 const args = process.argv.slice(2);
-const json = args.includes('--json');
+// Arguments after -- are literal filenames, even when they begin with a dash.
+const separator = args.indexOf('--');
+const options = separator === -1 ? args : args.slice(0, separator);
+const filenames = separator === -1 ? [] : args.slice(separator + 1);
+const json = options.includes('--json');
 const usage = 'Usage: permission-gap check <routes.json> [--json]\nOptions: --help, --version, --json';
 
 try {
@@ -13,8 +17,9 @@ try {
   } else if (args.length === 1 && args[0] === '--version') {
     console.log(version);
   } else {
-    const positional = args.filter(arg => arg !== '--json');
-    if (positional.length !== 2 || positional[0] !== 'check' || positional[1].startsWith('--') || args.filter(arg => arg === '--json').length > 1) {
+    const positional = [...options.filter(arg => arg !== '--json'), ...filenames];
+    const unknownOption = options.some(arg => arg.startsWith('-') && arg !== '--json');
+    if (positional.length !== 2 || positional[0] !== 'check' || unknownOption || options.filter(arg => arg === '--json').length > 1) {
       throw new Error(usage);
     }
     let content;
