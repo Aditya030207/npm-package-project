@@ -189,7 +189,7 @@ node examples/basic.js
 npm pack --dry-run
 ```
 
-The 20 automated tests use `node:test` and strict assertions. They cover valid policies, input validation, missing permissions, duplicates, conflicts, counting, immutability, reports, and CLI behavior with real temporary files and child processes.
+The 26 automated tests use `node:test` and strict assertions. They cover valid policies, input validation, missing permissions, duplicates, conflicts, counting, immutability, reports, and CLI behavior with real temporary files and child processes.
 
 ## Source structure
 

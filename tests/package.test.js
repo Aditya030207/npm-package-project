@@ -59,7 +59,8 @@ test('empty list has zero coverage and no findings', () => {
   assert.equal(result.hasIssues, false);
 });
 test('invalid entries are findings, including sparse array slots', () => {
-  const routes = [null, [], 'route', {}, { method: 'BAD', path: '/' }, { method: 'GET', path: 'users' }, { method: 'GET', path: '/bad path' }, ...Array(1)];
+  const routes = [null, [], 'route', {}, { method: 'BAD', path: '/' }, { method: 'GET', path: 'users' }, { method: 'GET', path: '/bad path' }];
+  routes.length = 8; // Leave a real sparse slot rather than an explicit undefined value.
   const result = auditRoutes(routes);
   assert.equal(result.findings.invalidRoutes.length, 8);
   assert.equal(result.summary.coveragePercentage, 0);
@@ -162,4 +163,27 @@ test('check --help explains exit codes without reading a file', () => {
   assert.equal(result.stderr, '');
   assert.match(result.stdout, /Exit codes: 0 = no findings, 1 = audit findings, 2 = input error/);
   assert.equal(run('check', '--help', 'extra.json').status, 2);
+});
+
+test('normalizes every supported HTTP method without merging distinct methods', () => {
+  const methods = ['get', 'post', 'put', 'patch', 'delete', 'head', 'options', 'connect', 'trace'];
+  const result = auditRoutes(methods.map(method => ({ method, path: '/shared', access: 'authenticated' })));
+  assert.equal(result.hasIssues, false);
+  assert.equal(result.summary.validPermissions, 9);
+  assert.equal(result.summary.duplicateRoutes, 0);
+});
+
+test('keeps independent duplicate and conflict groups separate', () => {
+  const result = auditRoutes([
+    { method: 'GET', path: '/a', access: 'public' },
+    { method: 'GET', path: '/b', access: 'admin' },
+    { method: 'GET', path: '/a', access: 'public' },
+    { method: 'GET', path: '/b', access: 'authenticated' },
+    { method: 'GET', path: '/b', access: 'admin' }
+  ]);
+  assert.equal(result.summary.duplicateRoutes, 3);
+  assert.equal(result.summary.conflictingRoutes, 1);
+  assert.deepEqual(result.findings.duplicateRoutes.map(group => group.indices), [[0, 2], [1, 3, 4]]);
+  assert.deepEqual(result.findings.conflictingPermissions[0].permissions, ['admin', 'authenticated']);
+  assert.equal(result.summary.coveragePercentage, 100);
 });
