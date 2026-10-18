@@ -187,3 +187,13 @@ test('keeps independent duplicate and conflict groups separate', () => {
   assert.deepEqual(result.findings.conflictingPermissions[0].permissions, ['admin', 'authenticated']);
   assert.equal(result.summary.coveragePercentage, 100);
 });
+
+test('shipped clean example passes while the issue example reports findings', () => {
+  const clean = run('check', path.join(__dirname, '../examples/clean-routes.json'), '--json');
+  assert.equal(clean.status, 0);
+  assert.equal(JSON.parse(clean.stdout).summary.coveragePercentage, 100);
+  assert.equal(JSON.parse(clean.stdout).hasIssues, false);
+  const issues = run('check', path.join(__dirname, '../examples/routes.json'), '--json');
+  assert.equal(issues.status, 1);
+  assert.equal(JSON.parse(issues.stdout).summary.conflictingRoutes, 1);
+});

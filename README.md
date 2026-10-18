@@ -178,6 +178,14 @@ Audit Complete
 
 The example intentionally has issues and exits with code 1.
 
+For a complete set of consistent declarations, run:
+
+```bash
+node bin/cli.js check examples/clean-routes.json
+```
+
+This example uses all three supported permissions, reports 100% declaration coverage with no findings, and exits with code 0. Compare it with `examples/routes.json` to see how missing and conflicting declarations change the result. Neither result verifies middleware enforcement.
+
 ## Development and testing
 
 ```bash
@@ -189,7 +197,7 @@ node examples/basic.js
 npm pack --dry-run
 ```
 
-The 26 automated tests use `node:test` and strict assertions. They cover valid policies, input validation, missing permissions, duplicates, conflicts, counting, immutability, reports, and CLI behavior with real temporary files and child processes.
+The 27 automated tests use `node:test` and strict assertions. They cover valid policies, input validation, missing permissions, duplicates, conflicts, counting, immutability, reports, and CLI behavior with real temporary files and child processes.
 
 ## Source structure
 
@@ -205,7 +213,8 @@ npm-package-project/
 ├── tests/package.test.js    # API and CLI tests
 ├── examples/
 │   ├── basic.js
-│   └── routes.json
+│   ├── routes.json
+│   └── clean-routes.json
 ├── package.json
 ├── package-lock.json
 ├── README.md

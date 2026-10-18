@@ -1,0 +1,17 @@
+[
+  {
+    "method": "GET",
+    "path": "/products",
+    "access": "public"
+  },
+  {
+    "method": "POST",
+    "path": "/products",
+    "access": "authenticated"
+  },
+  {
+    "method": "DELETE",
+    "path": "/products/:id",
+    "access": "admin"
+  }
+]
