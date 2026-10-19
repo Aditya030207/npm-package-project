@@ -35,7 +35,7 @@ npm install github:Aditya030207/npm-package-project
 Or run `npm pack` in this repository and install the resulting archive in another project:
 
 ```bash
-npm install /absolute/path/to/permission-gap-detector-1.0.1.tgz
+npm install /absolute/path/to/permission-gap-detector-1.0.2.tgz
 ```
 
 ## Basic usage
